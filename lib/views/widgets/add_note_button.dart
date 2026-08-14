@@ -31,17 +31,51 @@ class AddNoteBottomSheetWidget extends StatelessWidget {
   Widget build(BuildContext context) {
     return Container(
       padding: const EdgeInsets.all(24),
-      child: CustomScrollView(
-        slivers: [
+      child: SingleChildScrollView(
+        child: AddNoteForm(),
+      ),
+    );
+  }
+}
 
-          const SliverToBoxAdapter(child: CustomTextField(hint: "Title",)),
-          const SliverToBoxAdapter(child: SizedBox(height: 16,)),
-          const SliverToBoxAdapter(child: CustomTextField(hint: "Content", maxLines: 5,)),
+class AddNoteForm extends StatefulWidget {
+  const AddNoteForm({
+    super.key,
+  });
+
+  @override
+  State<AddNoteForm> createState() => _AddNoteFormState();
+}
+
+class _AddNoteFormState extends State<AddNoteForm> {
+  final GlobalKey<FormState> formKey = GlobalKey<FormState>();
+  AutovalidateMode autoValidateMode = AutovalidateMode.disabled;
+
+  String? title, content;
 
 
-          SliverFillRemaining(
-            hasScrollBody: false,
-            child: Align(alignment: Alignment.bottomCenter, child: CustomButton(label: "Add", onPressed: (){})),
+  @override
+  Widget build(BuildContext context) {
+    return Form(
+      key: formKey,
+      child: Column(
+        spacing: 16,
+        children: [
+
+          CustomTextField(hint: "Title", onSaved: (value)=> title = value,),
+          CustomTextField(hint: "Content", maxLines: 5, onSaved: (value)=> content = value),
+
+
+          CustomButton(
+            label: "Add",
+            onPressed: (){
+              if(formKey.currentState!.validate()){
+                formKey.currentState!.save();
+              } else{
+                autoValidateMode = AutovalidateMode.onUserInteraction;
+                setState(() {});
+              }
+            },
           ),
         ],
       ),
