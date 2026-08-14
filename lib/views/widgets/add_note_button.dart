@@ -17,6 +17,7 @@ class AddNoteButton extends StatelessWidget {
       onPressed: () =>
           showModalBottomSheet(
             context: context,
+            isScrollControlled: true,
             builder: (context) => AddNoteBottomSheetWidget(),
           ),
     );

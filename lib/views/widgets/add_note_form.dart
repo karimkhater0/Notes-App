@@ -30,27 +30,32 @@ class _AddNoteFormState extends State<AddNoteForm> {
         spacing: 16,
         children: [
 
-          CustomTextField(hint: "Title", onSaved: (value)=> title = value,),
-          CustomTextField(hint: "Content", maxLines: 5, onSaved: (value)=> content = value),
+          CustomTextField(hint: "Title", onSaved: (value) => title = value,),
+          CustomTextField(hint: "Content", maxLines: 5, onSaved: (value) => content = value),
 
 
-          CustomButton(
-            label: "Add",
-            onPressed: (){
-              if(formKey.currentState!.validate()){
-                formKey.currentState!.save();
-                context.read<AddNoteCubit>().addNote(
-                    NoteModel(
-                      title: title!,
-                      subtitle: content!,
-                      date: DateTime.now().toString(),
-                      color: Colors.blue.toARGB32(),
-                    ),
-                );
-              } else{
-                autoValidateMode = AutovalidateMode.onUserInteraction;
-                setState(() {});
-              }
+          BlocBuilder<AddNoteCubit, AddNoteState>(
+            builder: (context, state) {
+              return CustomButton(
+                label: "Add",
+                isLoading: state is AddNoteLoading,
+                onPressed: () {
+                  if (formKey.currentState!.validate()) {
+                    formKey.currentState!.save();
+                    context.read<AddNoteCubit>().addNote(
+                      NoteModel(
+                        title: title!,
+                        subtitle: content!,
+                        date: DateTime.now().toString(),
+                        color: Colors.blue.toARGB32(),
+                      ),
+                    );
+                  } else {
+                    autoValidateMode = AutovalidateMode.onUserInteraction;
+                    setState(() {});
+                  }
+                },
+              );
             },
           ),
         ],
