@@ -5,17 +5,17 @@ import 'package:bloc/bloc.dart';
 class MyBlocObserver implements BlocObserver{
   @override
   void onChange(BlocBase<dynamic> bloc, Change<dynamic> change) {
-   log("Change = $change");
+   log("$bloc ==> $change");
   }
 
   @override
   void onClose(BlocBase<dynamic> bloc) {
-    // TODO: implement onClose
+    log("Closing ==> $bloc");
   }
 
   @override
   void onCreate(BlocBase<dynamic> bloc) {
-    // TODO: implement onCreate
+    log("Creating ==> $bloc");
   }
 
   @override
