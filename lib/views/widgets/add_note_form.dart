@@ -46,7 +46,7 @@ class _AddNoteFormState extends State<AddNoteForm> {
                     context.read<AddNoteCubit>().addNote(
                       NoteModel(
                         title: title!,
-                        subtitle: content!,
+                        content: content!,
                         date: DateFormat("dd MMM, yyyy hh:mm a").format(DateTime.now()),
                         color: Colors.amber.toARGB32(),
                       ),
@@ -59,8 +59,11 @@ class _AddNoteFormState extends State<AddNoteForm> {
               );
             },
           ),
+          const SizedBox(),
         ],
       ),
     );
   }
 }
+
+
